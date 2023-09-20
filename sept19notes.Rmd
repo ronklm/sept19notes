@@ -1,0 +1,159 @@
+---
+title: 'Worksheet: Introduction to Plotting with ggplot2'
+author: "Damien Ronk"
+date: "`r format(Sys.time(), '%A, %B %d, %Y @ %I:%M %p')`"
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate
+    toc: yes
+    toc_depth: 4
+  pdf_document:
+    toc: yes
+    toc_depth: '4'
+subtitle: STT 2860 Intro to Data Mgmt & Visualization
+---
+
+```{r globaloptions, include = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  comment = NA
+)
+```
+
+***
+
+### Packages Used
+
+```{r}
+# load all packages used here
+library(tidyverse)
+library(nycflights13)
+```
+
+
+### Datasets Used
+
+#### Popular Kids
+
+The dataset `popular.csv` is from [Dr. Thomley's Data Files](https://stat-jet-asu.github.io/Datasets/DatasetList.html). You can read about it [HERE](https://stat-jet-asu.github.io/Datasets/InstructorDescriptions/popular.html).
+
+```{r}
+# import the dataset from the web URL
+kids <- read_csv("https://raw.githubusercontent.com/STAT-JET-ASU/Datasets/master/Instructor/popular.csv")
+```
+
+```{r}
+# explore the dataset
+# can do so in the environment
+# or we can explicitly ask for information
+glimpse(kids)
+head(kids)
+```
+
+#### Semmelweis Data
+
+The dataset `semmelweisannualbyclinic.csv` is from [Dr. Thomley's Data Files](https://stat-jet-asu.github.io/Datasets/DatasetList.html). You can read about Dr. Ignaz Semmelweis [HERE](https://www.pbs.org/newshour/health/ignaz-semmelweis-doctor-prescribed-hand-washing). This dataset contains annual observations for two different clinics that led him to implement his handwashing experiment.
+
+```{r}
+semm <- read_csv("https://raw.githubusercontent.com/STAT-JET-ASU/Datasets/master/Instructor/semmelweisannualbyclinic.csv")
+```
+
+```{r}
+# explore the dataset
+glimpse(semm)
+head(semm)
+```
+
+#### Flights Data
+
+The `flights` dataset is from the nycflights13 package, which is installed on the RStudio server.
+
+```{r}
+# save the dataset to your Environment
+flights <- flights
+```
+
+```{r}
+# explore the dataset
+glimpse(flights)
+head(flights)
+```
+
+
+### Using `geom_bar()`
+
+#### Basic Bar Plot
+
+```{r}
+ggplot(kids)
+# bare plot
+```
+
+```{r}
+ggplot(kids, aes(x = top_goal))
+# we've told it what we want to plot, and that its associated with the x axis
+```
+
+```{r}
+# plus sign must be at the end of this line, can not be on second line
+ggplot(kids, aes(x = top_goal)) +
+  geom_bar() #must put parenthesis because it is a FUNCTION
+# now we've told it what kind of plot we actually want
+```
+
+```{r}
+ggplot(kids, aes(x = district_type)) +
+  geom_bar()
+```
+
+```{r}
+ggplot(kids, aes(x = gender)) +
+  geom_bar()
+```
+
+Now we want our code to be more informative! 
+
+#### Fancy Bar Plots 
+
+```{r}
+# horizontal bar plot
+ggplot(kids, aes(y = top_goal)) +
+  geom_bar()
+#same as the bare bones, but change x to y
+```
+
+```{r}
+# use a different layer using `coord_flip`  
+ggplot(kids, aes(x = top_goal)) +
+  geom_bar() +
+  coord_flip()
+
+# does the same thing as changing the x and y value, this is more common
+```
+
+```{r}
+# adding useful labels!
+ggplot(kids, aes(x = top_goal)) +
+  geom_bar() +
+  labs(
+    title = "Top Goal in School Picked by Sampled Students",
+    subtitle = "* participants chose one goal from three options",
+    x = "Top Goal Options",
+    y= "Number of Students",
+    caption = "data file: popular.csv"
+  )
+# plot with informative labels! later, we will use theme() to make it look nicer
+```
+
+### Using `geom_col()`
+
+#### Subheader Here!
+
+
+
+***
+```{r}
+sessionInfo()
+```
